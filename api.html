@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Ak - Wheather Forcast</title>
+    <style>
+        body {
+            background-color: slategrey;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .container {
+
+            border: 2px solid black;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Ak - Wheather Forcast</h1>
+        <div>
+            <input type="text" placeholder="Enter The City Name" oninput="getWheatherInfo(this.value)">
+        </div>
+        <div class="details">
+            Enter The City Name To Get Details
+        </div>
+
+    </div>
+
+    <script>
+        const detailsDiv = document.querySelector('.details')
+        const APIkey = '3becb1759da057bd3b63a18a7d85d605'
+        async function getWheatherInfo(cityName) {
+
+            url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${APIkey}`
+
+            const info = await fetch(url).then((response) => {
+                if (response.ok) {
+                    return response.json();
+                }
+                return null
+            })
+            let str = ''
+
+            if (info == null) {
+                str =
+                    `
+                City Name Not Found
+                `
+            }
+            else {
+              
+                str = `
+                Name : ${cityName} <br>
+            Temp : ${info.main.temp} <br>
+            Min Temp : ${info.main.temp_min} <br>
+            Max Temp : ${info.main.temp_max} <br>
+            Presssure : ${info.main.pressure} <br>
+            Humidity : ${info.main.humidity}
+
+            `
+
+            }
+            detailsDiv.innerHTML = str
+
+
+
+
+          
+
+        }
+    </script>
+</body>
+
+</html>
